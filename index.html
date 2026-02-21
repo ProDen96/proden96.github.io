@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Denis Procházka</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --cream2: #ede8df;
+    --green-dark: #1c2b1e;
+    --green-mid: #2d4a32;
+    --green-light: #4a7c59;
+    --green-muted: #7aab85;
+    --green-pale: #c8ddc0;
+    --brown: #8b6f47;
+    --text: #1c2b1e;
+    --muted: #6b7c6e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 56px;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(74,124,89,0.12);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--green-dark);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.25s;
+  }
+
+  .nav-links a:hover { color: var(--green-mid); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    padding: 80px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--green-light);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 5.5vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--green-light);
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.9;
+    max-width: 400px;
+    margin-bottom: 48px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-fill {
+    background: var(--green-mid);
+    color: var(--cream);
+    padding: 14px 36px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 40px;
+    transition: all 0.25s;
+    font-weight: 400;
+  }
+
+  .btn-fill:hover {
+    background: var(--green-dark);
+  }
+
+  .btn-line {
+    color: var(--green-mid);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.2s;
+  }
+
+  .btn-line:hover { gap: 14px; }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    background: var(--green-mid);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #2d4a32 0%, #1c2b1e 60%, #3d6b46 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero-img-placeholder svg {
+    width: 64px;
+    height: 64px;
+    stroke: rgba(255,255,255,0.15);
+  }
+
+  .hero-img-placeholder span {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .hero-img-tag {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    background: rgba(245,240,232,0.95);
+    padding: 16px 24px;
+    border-radius: 4px;
+  }
+
+  .hero-img-tag p {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .hero-img-tag strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--green-dark);
+    font-weight: 400;
+  }
+
+  /* DIVIDER LEAF */
+  .leaf-divider {
+    text-align: center;
+    padding: 16px;
+    font-size: 1.2rem;
+    color: var(--green-pale);
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 100px 56px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+
+  .section-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--green-pale);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1.1;
+  }
+
+  /* BIO */
+  #bio {
+    background: var(--cream2);
+  }
+
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .bio-img {
+    aspect-ratio: 4/5;
+    background: linear-gradient(160deg, #4a7c59, #2d4a32);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+  }
+
+  .bio-img svg {
+    width: 48px;
+    height: 48px;
+    stroke: rgba(255,255,255,0.2);
+  }
+
+  .bio-img span {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .bio-img::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .bio-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: var(--green-dark);
+  }
+
+  .bio-text h2 em {
+    font-style: italic;
+    color: var(--green-light);
+  }
+
+  .bio-role {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+    margin-bottom: 28px;
+  }
+
+  .bio-text p {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 14px;
+  }
+
+  .bio-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .skill-pill {
+    border: 1px solid var(--green-pale);
+    padding: 7px 18px;
+    border-radius: 40px;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--green-mid);
+    background: rgba(200,221,192,0.15);
+  }
+
+  /* PROJECTS */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .project-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 320px 100px;
+    align-items: center;
+    gap: 32px;
+    padding: 36px 40px;
+    background: var(--cream2);
+    border-left: 3px solid transparent;
+    transition: all 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-row:hover {
+    border-left-color: var(--green-light);
+    background: white;
+  }
+
+  .project-row-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--green-pale);
+  }
+
+  .project-row-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--green-dark);
+  }
+
+  .project-row-desc {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .project-row-tag {
+    text-align: right;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-light);
+  }
+
+  /* PHOTOS */
+  #photos {
+    background: var(--green-dark);
+    color: var(--cream);
+  }
+
+  #photos .section-num { color: var(--green-muted); }
+  #photos .section-line { background: rgba(255,255,255,0.08); }
+  #photos .section-title { color: var(--cream); }
+
+  .photos-layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 8px;
+  }
+
+  .photo-item {
+    background: var(--green-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .photo-item:nth-child(1) { grid-column: span 5; grid-row: span 2; background: linear-gradient(135deg, #3d6b46, #1c2b1e); }
+  .photo-item:nth-child(2) { grid-column: span 4; background: linear-gradient(135deg, #4a7c59, #2d4a32); }
+  .photo-item:nth-child(3) { grid-column: span 3; background: linear-gradient(135deg, #2d4a32, #1c2b1e); }
+  .photo-item:nth-child(4) { grid-column: span 3; background: linear-gradient(135deg, #3d6b46, #2d4a32); }
+  .photo-item:nth-child(5) { grid-column: span 4; background: linear-gradient(135deg, #1c2b1e, #4a7c59); }
+
+  .photo-item span {
+    color: rgba(255,255,255,0.15);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .photos-cta {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .btn-outline-light {
+    border: 1px solid rgba(200,221,192,0.3);
+    color: var(--cream);
+    padding: 13px 36px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 40px;
+    display: inline-block;
+    transition: all 0.25s;
+  }
+
+  .btn-outline-light:hover {
+    background: rgba(200,221,192,0.1);
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--cream2);
+  }
+
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .contact-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--green-dark);
+    margin-bottom: 24px;
+  }
+
+  .contact-left h2 em {
+    font-style: italic;
+    color: var(--green-light);
+  }
+
+  .contact-left p {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+
+  .contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--green-pale);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    group: true;
+  }
+
+  .contact-item:first-child { border-top: 1px solid var(--green-pale); }
+
+  .contact-item:hover .contact-item-name { color: var(--green-light); }
+  .contact-item:hover .contact-arrow { transform: translate(4px, -4px); color: var(--green-light); }
+
+  .contact-item-type {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+    margin-bottom: 4px;
+  }
+
+  .contact-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    transition: color 0.2s;
+  }
+
+  .contact-arrow {
+    font-size: 1.1rem;
+    color: var(--green-pale);
+    transition: all 0.2s;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--green-dark);
+    padding: 32px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer span {
+    font-size: 0.72rem;
+    color: var(--green-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+  }
+
+  /* AVAILABLE */
+  .available {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-muted);
+  }
+
+  .avail-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #6fcf97;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* FADE IN */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeUp 0.7s ease both; }
+  h1 { animation: fadeUp 0.7s 0.1s ease both; }
+  .hero-subtitle { animation: fadeUp 0.7s 0.18s ease both; }
+  .hero-desc { animation: fadeUp 0.7s 0.26s ease both; }
+  .hero-actions { animation: fadeUp 0.7s 0.34s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Denis Procházka</div>
+  <ul class="nav-links">
+    <li><a href="#bio">O mně</a></li>
+    <li><a href="#projects">Projekty</a></li>
+    <li><a href="#photos">Fotky</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Portfolio</div>
+    <h1>Denis<br><em>Procházka</em></h1>
+    <div class="hero-subtitle">Quality & Education specialist</div>
+    <p class="hero-desc">
+      Tvořím vzdělávací systémy, automatizuji procesy a buduju věci, které dávají smysl. Rád spojuju technologie s lidskou stránkou práce.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-fill">Moje projekty</a>
+      <a href="#contact" class="btn-line">Kontakt →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img">
+      <div class="hero-img-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="0.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span>Tvoje fotka</span>
+      </div>
+    </div>
+    <div class="hero-img-tag">
+      <p>Aktuálně</p>
+      <strong>Allegro · One by Allegro</strong>
+    </div>
+  </div>
+</div>
+
+<!-- BIO -->
+<section id="bio">
+  <div class="section-header">
+    <span class="section-num">01 — O mně</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="bio-grid">
+    <div class="bio-img">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="0.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Tvoje fotka</span>
+    </div>
+    <div class="bio-text">
+      <h2>Ahoj, jsem <em>Denis.</em></h2>
+      <div class="bio-role">Quality & Education · Allegro</div>
+      <p>Pracuji jako specialista na kvalitu a vzdělávání v Allegro (One by Allegro), kde se starám o logistické operace na trzích v ČR, SK a HU.</p>
+      <p>Baví mě tvořit věci, které mají smysl – od gamifikovaných výukových systémů přes automatizační nástroje až po osobní projekty. Ve volném čase hraju World of Warcraft, streamuji a experimentuji s AI.</p>
+      <div class="bio-skills">
+        <span class="skill-pill">Logistika</span>
+        <span class="skill-pill">Vzdělávání & Trénink</span>
+        <span class="skill-pill">HTML / CSS / JS</span>
+        <span class="skill-pill">Firebase</span>
+        <span class="skill-pill">Automatizace</span>
+        <span class="skill-pill">AI Tools</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">02 — Projekty</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-list">
+    <a class="project-row" href="#">
+      <div class="project-row-num">01</div>
+      <div class="project-row-name">Training RPG</div>
+      <div class="project-row-desc">Gamifikovaný výukový systém pro zákaznický support s RPG rozhraním a interaktivními prvky.</div>
+      <div class="project-row-tag">HTML / Firebase</div>
+    </a>
+    <a class="project-row" href="#">
+      <div class="project-row-num">02</div>
+      <div class="project-row-name">Finance Tracker</div>
+      <div class="project-row-desc">Osobní aplikace pro sledování financí a denní journaling s přehledným dashboardem.</div>
+      <div class="project-row-tag">JS / Sheets</div>
+    </a>
+    <a class="project-row" href="#">
+      <div class="project-row-num">03</div>
+      <div class="project-row-name">Projekt tři</div>
+      <div class="project-row-desc">Popis tvého dalšího projektu. Krátce a výstižně co řeší a jak funguje.</div>
+      <div class="project-row-tag">Make.com</div>
+    </a>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section id="photos">
+  <div class="section-header">
+    <span class="section-num">03 — Instagram</span>
+    <div class="section-line"></div>
+    <div class="section-title" style="color:var(--cream)">Fotky</div>
+  </div>
+  <div class="photos-layout">
+    <div class="photo-item"><span>foto</span></div>
+    <div class="photo-item"><span>foto</span></div>
+    <div class="photo-item"><span>foto</span></div>
+    <div class="photo-item"><span>foto</span></div>
+    <div class="photo-item"><span>foto</span></div>
+  </div>
+  <div class="photos-cta">
+    <a href="#" class="btn-outline-light">Sledovat na Instagramu →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">04 — Kontakt</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-left">
+      <h2>Pojďme<br><em>spolupracovat</em></h2>
+      <p>Máš projekt, nápad nebo otázku? Rád si popovídám.</p>
+    </div>
+    <div class="contact-items">
+      <a href="mailto:denis@denisprochazka.cz" class="contact-item">
+        <div>
+          <div class="contact-item-type">E-mail</div>
+          <div class="contact-item-name">denis@denisprochazka.cz</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+      <a href="#" class="contact-item">
+        <div>
+          <div class="contact-item-type">LinkedIn</div>
+          <div class="contact-item-name">Denis Procházka</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+      <a href="#" class="contact-item">
+        <div>
+          <div class="contact-item-type">Instagram</div>
+          <div class="contact-item-name">@tvojinstagram</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Denis Procházka</span>
+  <div class="footer-logo">D.</div>
+  <div class="available">
+    <div class="avail-dot"></div>
+    Dostupný pro projekty
+  </div>
+</footer>
+
+</body>
+</html>
